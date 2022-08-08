@@ -1,0 +1,29 @@
+:local EmailAdd "d2kmmn@gmail.com"
+:local CurDate [/system clock get date] 
+:local CurTime [/system clock get time] 
+:local HostName "New-Mikrotik"
+:local HostIP "192.168.2.210"
+
+:log info "$HostName $HostIP is UP"
+:log info "Email is sent to d2kmmn@gmail.com"
+
+ /tool e-mail send to="$EmailAdd" subject="Host \"$HostName\" is UP at $CurTime $CurDate" body="Host \"$HostName($HostIP)\" is up at $CurTime. 
+
+
+Alert by Khi Office Mikrotik...........................................!"
+
+
+
+:local EmailAdd "d2kmmn@gmail.com"
+:local CurDate [/system clock get date] 
+:local CurTime [/system clock get time] 
+:local HostName "New-Mikrotik"
+:local HostIP "192.168.2.210"
+
+:log info "$HostName $HostIP is Down"
+:log info "Email is sent to d2kmmn@gmail.com"
+
+ /tool e-mail send to="$EmailAdd" subject="Host \"$HostName\" is Down at $CurTime $CurDate" body="Host \"$HostName($HostIP)\" is Down at $CurTime. 
+
+
+Alert by Khi Office Mikrotik...........................................!"

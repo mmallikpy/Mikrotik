@@ -1,0 +1,40 @@
+IP: 45.229.32.30
+Username: mallik
+Password: Ma1234Ma
+Ma1234Ma
+
+
+/routing bgp> export 
+# jul/16/2019 09:00:51 by RouterOS 6.45.1
+# software id = D8DF-F0DR
+#
+# model = CCR1009-7G-1C-1S+
+# serial number = 915009923376
+/routing bgp instance
+set default as=30542
+/routing bgp network
+add network=2620:42:2000::/48 synchronize=no
+/routing bgp peer
+add address-families=ip,ipv6 name=peer1 remote-address=45.229.32.29 remote-as=28007 ttl=default update-source=combo1
+add address-families=ip,ipv6 name=peer2 remote-address=2800:5e0:11::9 remote-as=28007 ttl=default
+[mallik@GD-MainGW] /routing bgp> 
+
+
+
+/ipv6> export 
+# jul/16/2019 09:01:23 by RouterOS 6.45.1
+# software id = D8DF-F0DR
+#
+# model = CCR1009-7G-1C-1S+
+# serial number = 915009923376
+/ipv6 dhcp-server
+add address-pool=pool1 interface=DHCP-Interface name=server1
+/ipv6 pool
+add name=pool1 prefix=2620:42:2000::/64 prefix-length=64
+/ipv6 address
+add address=2800:5e0:11::a/126 advertise=no interface=combo1
+add address=2620:42:2000::1 comment=MN interface=DHCP-Interface
+/ipv6 nd
+set [ find default=yes ] advertise-dns=yes interface=DHCP-Interface managed-address-configuration=yes other-configuration=yes
+/ipv6 nd prefix
+add autonomous=no interface=DHCP-Interface

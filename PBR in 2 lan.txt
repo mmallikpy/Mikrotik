@@ -1,0 +1,25 @@
+
+/ip firewall mangle
+
+add chain=prerouting src-address=192.168.0.0/24 action=mark-routing new-routing-mark=ISP1 passthrough=no
+add chain=prerouting src-address=192.168.1.0/24 action=mark-routing new-routing-mark=ISP2 passthrough=no
+
+
+/ip firewall nat 
+add chain=src-nat outinterface=ISP1_WAN action=masqurate  
+add chain=src-nat outinterface=ISP2_WAN action=masqurate  
+add chain=src-nat WAN action=masqurate 
+
+
+/ip route
+add gateway=10.10.11.1 routing-mark=ISP2
+add gateway=10.10.10.1 routing-mark=ISP1
+add gateway=10.10.10.1 
+add gateway=10.10.11.1  distance 10
+
+
+
+
+################ No Need If need I will check #############################################
+add chain=prerouting src-address=192.168.0.0/24 dst-address=192.168.0.1 action=accept 
+add chain=prerouting src-address=192.168.1.0/24 dst-address=192.168.1.1 action=accept 

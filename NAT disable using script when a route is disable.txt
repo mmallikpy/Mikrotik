@@ -1,0 +1,6 @@
+## NAT disable based on route. If 1 route is unreahable then 1 NAT will disable, when it will back then NAT will back. ( Schedule will 10s interval)
+
+{
+local status [ip route get value-name=active [find comment=Gateway1]]
+if ($status= true) do={/ip firewall nat enable [find comment=main]} else={/ip firewall nat disable [find comment=main]}
+}
