@@ -1,0 +1,27 @@
+# Senario is, Suddenly we faced that our WiFi password is hacked, Some people are using my home internet. For that we can take different action.
+# We can fix a firewall ruls to allow my users. Problem is you doesnot get any notification. 
+# This script help you to protect a unknown user and notify you using telegram.
+
+# Process, First arp static your all known users. After that run this script. You need your own Telegram with telegram boat.
+
+
+
+:local arpList [/ip arp find dynamic]
+:foreach arpId in=$arpList do={
+    :global ipAddr [/ip arp get $arpId address]
+    :local macAddr [/ip arp get $arpId mac-address]
+    :local interface [/ip arp get $arpId interface]
+    # WiFi-Bridge is a interface
+    :if ($interface="WiFi-Bridge") do={
+        :log info "New ARP found $ipAddr"
+        :local ipInfilter [/ip firewall filter find where src-address="$ipAddr"]
+        :log info "$ipInfilter Found in filter"
+        :if ([:len $ipInfilter]=0) do={
+            :log info "Value is zero"
+            /ip firewall filter add action=drop chain=forward src-address=$ipAddr
+            :log info "$ipAddr is blocked by Script"
+            :local message "$ipAddr is blocked by Script"
+            /tool fetch "https://api.telegram.org/botYourAPI/sendMessage\?chat_id=YourChatID&text=$message"
+        }
+    }  
+ }
