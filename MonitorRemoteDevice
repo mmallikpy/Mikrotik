@@ -1,0 +1,16 @@
+# This script will monitor the remote hosts using ping. If it's get 0 ping then it will send sms in telegram.
+
+:local ipaddress "103.xxx.xxx.xxx"    # Monitor IP
+:local ipaddressb "103.xxx.xxx.xxx"   # Monitor IP
+#Counting 5 ping every time.
+:if ([ping count=5 $ipaddress]=0) do={
+  :log error "Host $ipaddress is down"
+  :local message "1st IP $ipaddress is down"
+  /tool fetch "https://api.telegram.org/botYourAPIKEY/sendMessage\?chat_id=YourChatID&text=$message"
+}
+
+:if ([ping count=5 $ipaddressb]=0) do={
+  :log error "Host $ipaddressb is down"
+  :local message "2nd IP $ipaddressb is down"
+  /tool fetch "https://api.telegram.org/botYourAPIKEY/sendMessage\?chat_id=YourChatID&text=$message"
+}
